@@ -69,7 +69,6 @@ Edit `pocketcluster.k8s.local.yaml` fields for `configBase` and `networkID` to h
 Start cluster (launch instances with kubernetes services running, e.g., kubernetes API, master with kube ctrlr, nodes with kubelet agents). The cluster config is defined in `pocketcluster.k8s.local.yaml`.
 
 ```
-cd kubernetes
 ./setup_cluster.sh
 ```
 
