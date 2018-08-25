@@ -50,7 +50,7 @@ We leverage several open source projects to implement Pocket. Pocket's metadata 
 * **controller**: control plane logic for automatic resource scaling 
 * **monitor**: storage server resource monitoring daemon 
 * **clientlib**: python client library for Pocket, based on the cppcrail C++ client
-* **dokcerfiles**: Dockerfiles for building Pocket metadata and storage server container images 
+* **dockerfiles**: Dockerfiles for building Pocket metadata and storage server container images 
 * **deploy**: deployment scripts and instructions to run Pocket with Kubernetes on AWS EC2
 
 
