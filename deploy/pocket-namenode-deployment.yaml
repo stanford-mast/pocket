@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pocket-namenode-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pocket-namenode
+    spec:
+      hostNetwork: true
+      hostname: pocket-namenode
+      containers:
+      - name: pocket-namenode
+        image: anakli/pocket-namenode
+        ports:
+        - containerPort: 9070
+      nodeSelector: 
+        pocketnodetype: "metadata"

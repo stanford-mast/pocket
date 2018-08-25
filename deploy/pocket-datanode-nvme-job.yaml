@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   name: pocket-datanode-nvme-job
+spec:
+  parallelism: 1
+  template:
+    metadata:
+      labels:
+        app: pocket-datanode-nvme
+    spec:
+      hostNetwork: true
+      restartPolicy: "OnFailure"
+      privileged: true
+      containers:
+      - name: pocket-datanode-nvme
+        image: yawenw/pocket-reflex
+        securityContext:
+          privileged: true
+          allowPrivilegeEscalation: true
+        volumeMounts:
+        - mountPath: /dev
+          name: dev
+        - mountPath: /lib/modules/4.4.115-k8s
+          name: lib
+        ports:
+        - containerPort: 1234
+      volumes:
+      - name: dev
+        hostPath:
+          path: /dev
+          type: Directory
+      - name: lib
+        hostpath: 
+          path: /lib/modules/4.4.115-k8s
+          type: Directory
+      nodeSelector: 
+        pocketnodetype: "nvme"

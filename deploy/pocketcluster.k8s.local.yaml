@@ -1,0 +1,193 @@
+apiVersion: kops/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: null
+  name: pocketcluster.k8s.local
+spec:
+  api:
+    loadBalancer:
+      type: Internal
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://pocket-kubernetes-statestore-[username]/pocketcluster.k8s.local
+  etcdClusters:
+  - etcdMembers:
+    - instanceGroup: master-us-west-2c
+      name: c
+    name: main
+  - etcdMembers:
+    - instanceGroup: master-us-west-2c
+      name: c
+    name: events
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  kubernetesVersion: 1.9.3
+  masterPublicName: api.pocketcluster.k8s.local
+  networkCIDR: 10.1.0.0/16
+  networkID: vpc-86fbdcff
+  networking:
+    weave: {}
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - cidr: 10.1.0.0/17
+    name: pocket-kube-private
+    type: Private
+    zone: us-west-2c
+    id: subnet-7c94f026
+    egress: nat-0291ceb8f469222dd
+  - cidr: 10.1.129.32/27
+    name: pocket-kube-public
+    type: Public
+    zone: us-west-2c
+    id: subnet-6389ed39
+  topology:
+    dns:
+      type: Public
+    masters: private
+    nodes: private
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: pocketcluster.k8s.local
+  name: master-us-west-2c
+spec:
+  image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
+  machineType: m3.medium
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: master-us-west-2c
+  role: Master
+  subnets:
+  - pocket-kube-private
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: pocketcluster.k8s.local
+  name: dram-nodes
+spec:
+  image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
+  machineType: r4.2xlarge
+  maxSize: 0
+  minSize: 0
+  nodeLabels:
+    kops.k8s.io/instancegroup: dram-nodes
+    spot: "true"
+    pocketnodetype: "dram"
+  rootVolumeSize: 12
+  role: Node
+  subnets:
+  - pocket-kube-private
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: pocketcluster.k8s.local
+  name: metadata-nodes
+spec:
+  image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
+  machineType: m5.xlarge
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: metadata-nodes
+    spot: "true"
+    pocketnodetype: "metadata"
+  rootVolumeSize: 12
+  role: Node
+  subnets:
+  - pocket-kube-private
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: pocketcluster.k8s.local
+  name: nvme-nodes
+spec:
+  #image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
+  image: ami-310a6249
+  machineType: i3.2xlarge
+  maxSize: 1
+  minSize: 1
+  nodeLabels:
+    kops.k8s.io/instancegroup: nvme-nodes
+    spot: "false"
+    pocketnodetype: "nvme"
+  rootVolumeSize: 15
+  role: Node
+  subnets:
+  - pocket-kube-private
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: pocketcluster.k8s.local
+  name: hdd-nodes
+spec:
+  #image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
+  image: ami-310a6249
+  machineType: h1.2xlarge
+  maxSize: 0
+  minSize: 0
+  nodeLabels:
+    kops.k8s.io/instancegroup: hdd-nodes
+    spot: "false"
+    pocketnodetype: "hdd"
+  rootVolumeSize: 15
+  role: Node
+  subnets:
+  - pocket-kube-private
+
+---
+
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: null
+  labels:
+    kops.k8s.io/cluster: pocketcluster.k8s.local
+  name: ssd-nodes
+spec:
+  #image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
+  image: ami-310a6249
+  #image: ami-a702d5df
+  machineType: i2.2xlarge
+  maxSize: 0
+  minSize: 0
+  nodeLabels:
+    kops.k8s.io/instancegroup: ssd-nodes
+    spot: "false"
+    pocketnodetype: "ssd"
+  rootVolumeSize: 15
+  role: Node
+  subnets:
+  - pocket-kube-private

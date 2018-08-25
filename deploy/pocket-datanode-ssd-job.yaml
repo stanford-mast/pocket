@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+   name: pocket-datanode-ssd-jobjob
+spec:
+  parallelism: 2
+  template:
+    metadata:
+      labels:
+        app: pocket-datanode-ssd
+    spec:
+      hostNetwork: true
+      restartPolicy: "OnFailure"
+      privileged: true
+      containers:
+      - name: pocket-datanode-ssd
+        image: anakli/pocket-reflex-ixgbevf-libaio-monitoring:shell
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+          allowPrivilegeEscalation: true
+        volumeMounts:
+        - mountPath: /dev
+          name: dev
+        - mountPath: /lib/modules/4.4.115-k8s
+          name: lib
+        ports:
+        - containerPort: 1234
+      volumes:
+      - name: dev
+        hostPath:
+          path: /dev
+          type: Directory
+      - name: lib
+        hostpath: 
+          path: /lib/modules/4.4.115-k8s
+          type: Directory
+      nodeSelector: 
+        pocketnodetype: "ssd"
