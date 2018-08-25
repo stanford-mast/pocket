@@ -1,4 +1,5 @@
-# Pocket: Elastic ephemeral storage
+# Pocket
+## Elastic ephemeral storage
 
 Pocket is a storage system designed for ephemeral data sharing. Pocket provides fast, distributed and elastic storage for data with low durability requirements.
 The key properties of Pocket are:
@@ -7,7 +8,7 @@ The key properties of Pocket are:
 * automatic storage resource management and cluster rightsizing
 * fine-grain, elastic scaling 
 	
-Pocket offers a 'serverless' abstraction to storage, meaning users do not manually configure or manage storage servers. A key use-case for Pocket is ephemeral data sharing in serverless analytics, when serverless tasks need to exchange intermediate data between execution stages. 
+Pocket offers a *serverless* abstraction to storage, meaning users do not manually configure or manage storage servers. A key use-case for Pocket is ephemeral data sharing in serverless analytics, when serverless tasks need to exchange intermediate data between execution stages. 
 
 
 ## Running Pocket:
