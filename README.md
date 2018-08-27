@@ -13,12 +13,12 @@ Pocket offers a *serverless* abstraction to storage, meaning users do not manual
 
 ## Running Pocket
 
-Follow the instructions in this [https://github.com/stanford-mast/pocket/blob/master/deploy/README.md](README) to get started with a VPC for Pocket on AWS. 
+Follow the instructions in the [deploy README](https://github.com/stanford-mast/pocket/blob/master/deploy/README.md) to get started with a VPC for Pocket on AWS. 
 
 ```
 git clone https://github.com/stanford-mast/pocket
 cd deploy
-# follow instructions in README
+# follow instructions in deploy README
 # edit pocketcluster.k8s.local.yaml with your VPC info
 ./setup_cluster.sh
 kops validate cluster
@@ -58,4 +58,4 @@ We leverage several open source projects to implement Pocket. Pocket's metadata 
 
 Please refer to the Pocket OSDI'18 paper: 
 
-Ana Klimovic, Yawen Wang, Christos Kozyrakis, Patrick Stuedi, Animesh Trivedi, Jonas Pfefferle. *Pocket: Ephemeral Storage for Serverless Analytics.* Proceedings of the USENIX Symposium on Operating Systems Design and Implementation (OSDI'18), Carlsbad, CA, 2018.
+Ana Klimovic, Yawen Wang, Christos Kozyrakis, Patrick Stuedi, Animesh Trivedi, Jonas Pfefferle. **Pocket: Ephemeral Storage for Serverless Analytics.** In *Proceedings of the USENIX Symposium on Operating Systems Design and Implementation* (OSDI'18).
