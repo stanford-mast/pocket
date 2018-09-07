@@ -5,8 +5,8 @@ Pocket is a storage system designed for ephemeral data sharing. Pocket provides 
 The key properties of Pocket are:
 
 * high throughput and low latency for a wide range of object sizes
-* automatic storage resource management and cluster rightsizing
 * fine-grain, elastic scaling 
+* automatic storage resource management, cluster rightsizing, and data placement across multiple storage tiers
 	
 Pocket offers a *serverless* abstraction to storage, meaning users do not manually configure or manage storage servers. A key use-case for Pocket is ephemeral data sharing in serverless analytics, when serverless tasks need to exchange intermediate data between execution stages. 
 
