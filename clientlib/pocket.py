@@ -116,34 +116,43 @@ def put(pocket, src_filename, dst_filename, jobid, PERSIST_AFTER_JOB=False):
   :return: the Pocket dispatcher response 
   '''
 
+  if jobid:
+    jobid = "/" + jobid
+
   if PERSIST_AFTER_JOB:
-    set_filename = "/" + jobid + "-persist/" + dst_filename
+    set_filename = jobid + "-persist/" + dst_filename
   else:
-    set_filename = "/" + jobid + "/" + dst_filename
+    set_filename = jobid + "/" + dst_filename
 
   res = pocket.PutFile(src_filename, set_filename, False)
 
   return res
 
+
 def put_buffer(pocket, src, len, dst_filename, jobid, PERSIST_AFTER_JOB=False):
   '''
   Send a PUT request to Pocket to write key
+
   :param pocket:           pocketHandle returned from connect()
-  :param str src:        name of local object containing data to PUT
+  :param str src: 	   name of local object containing data to PUT
   :param str dst_filename: name of file/key in Pocket which writing to
   :param str jobid:        id unique to this job, used to separate keyspace for job
   :param PERSIST_AFTER_JOB:optional hint, if True, data written to table persisted after job done
   :return: the Pocket dispatcher response 
   '''
 
+  if jobid:
+    jobid = "/" + jobid
+
   if PERSIST_AFTER_JOB:
-    set_filename = "/" + jobid + "-persist/" + dst_filename
+    set_filename = jobid + "-persist/" + dst_filename
   else:
-    set_filename = "/" + jobid + "/" + dst_filename
+    set_filename = jobid + "/" + dst_filename
 
   res = pocket.PutBuffer(src, len, set_filename, False)
 
   return res
+
  
 def get(pocket, src_filename, dst_filename, jobid, DELETE_AFTER_READ=False):  
   '''
@@ -157,8 +166,11 @@ def get(pocket, src_filename, dst_filename, jobid, DELETE_AFTER_READ=False):
   :return: the Pocket dispatcher response 
   '''
 
-  get_filename = "/" + jobid + "/" + src_filename
-
+  if jobid:
+    jobid = "/" + jobid
+  
+  get_filename = jobid + "/" + src_filename
+  
   res = pocket.GetFile(get_filename, dst_filename)
   if res != 0:
     print("GET failed!")
@@ -168,6 +180,7 @@ def get(pocket, src_filename, dst_filename, jobid, DELETE_AFTER_READ=False):
     res = delete(pocket, src_filename, jobid);
 
   return res
+
 
 def get_buffer(pocket, src_filename, dst, len, jobid, DELETE_AFTER_READ=False):
   '''
@@ -181,7 +194,10 @@ def get_buffer(pocket, src_filename, dst, len, jobid, DELETE_AFTER_READ=False):
   :return: the Pocket dispatcher response 
   '''
 
-  get_filename = "/" + jobid + "/" + src_filename
+  if jobid:
+    jobid = "/" + jobid
+  
+  get_filename = jobid + "/" + src_filename
 
   res = pocket.GetBuffer(dst, len, get_filename)
   if res != 0:
@@ -193,6 +209,7 @@ def get_buffer(pocket, src_filename, dst, len, jobid, DELETE_AFTER_READ=False):
 
   return res
 
+
 def lookup(pocket, src_filename, jobid):  
   '''
   Send a LOOKUP metadata request to Pocket to see if file exists
@@ -203,7 +220,10 @@ def lookup(pocket, src_filename, jobid):
   :return: the Pocket dispatcher response 
   '''
 
-  get_filename = "/" + jobid + "/" + src_filename
+  if jobid:
+    jobid = "/" + jobid
+  
+  get_filename = jobid + "/" + src_filename
 
   res = pocket.Lookup(get_filename)
   if res != 0:
@@ -223,12 +243,15 @@ def delete(pocket, src_filename, jobid):
   :return: the Pocket dispatcher response 
   '''
   
+  if jobid:
+    jobid = "/" + jobid
+  
   if src_filename:
-    src_filename = "/" + jobid + "/" + src_filename
+    src_filename = jobid + "/" + src_filename
   else:
-    src_filename = "/" + jobid
+    src_filename = jobid
 
-  res = pocket.DeleteDir(src_filename)  # useDeleteDir for recursive delete 
+  res = pocket.DeleteDir(src_filename) # recursive delete
   
   return res
 
@@ -243,6 +266,9 @@ def create_dir(pocket, src_filename, jobid):
   :return: the Pocket dispatcher response 
   '''
   
+  if jobid:
+    jobid = "/" + jobid
+
   if src_filename:
     src_filename = jobid + "/" + src_filename
   else:
@@ -251,7 +277,6 @@ def create_dir(pocket, src_filename, jobid):
   res = pocket.MakeDir(src_filename)
 
   return res
-
 
 def count_files(pocket, dirname, jobid):  
   '''
@@ -263,6 +288,9 @@ def count_files(pocket, dirname, jobid):
   :return: the Pocket dispatcher response 
   '''
   
+  if jobid:
+    jobid = "/" + jobid
+  
   if dirname:
     dirname = jobid + "/" + dirname
   else:
@@ -272,6 +300,7 @@ def count_files(pocket, dirname, jobid):
 
   return res
 
+
 def close(pocket):  
   '''
   Send a CLOSE request to PocketFS
@@ -280,3 +309,4 @@ def close(pocket):
   :return: the Pocket dispatcher response 
   '''
   return pocket.Close() #TODO
+
