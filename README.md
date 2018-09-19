@@ -20,14 +20,39 @@ git clone https://github.com/stanford-mast/pocket
 cd deploy
 # follow instructions in deploy README
 # edit pocketcluster.k8s.local.yaml with your VPC info
+```
+
+Launch the VMs for the cluster described in `pocketcluster.k8x.local.yaml`:
+
+```
 ./setup_cluster.sh
 kops validate cluster
 python patch_cluster.py
 ./add_ip_routes.sh
+```
+
+Launch a Pocket metadata server container:
+
+```
 python deploy_pocket_namenode.py 
+```
+
+Launch the controller to autoscale the cluster as jobs register and deregister. The controller scales containers and assumes VMs are available to run these containers.
+
+```
 cd ../controller
 python3 controller.py
 ```
+
+You can also individually launch Pocket storage server containers instead of using the controller. For example:
+```
+python create_datanode_job.py dram_container 3  # this luanches 3 DRAM storage server containers
+python create_reflex_job.py nvme_container 2    # this launches 2 NVMe storage server containers
+python create_hdd_job.py hdd_container 1        # this launches 1 HDD storage server container
+python create_ssd_job.py ssd_container 1	# this luanches 1 SSD storage server container
+```
+
+Note that Pocket storage server containers have affinity to particular VM types to ensure they have the right type of storage technology available. `*-job.yaml` files in the deploy directory use the Kubernetes nodeSelector key to specify their pocketnodetype which corresponds to the nodeLabels key in `pocketcluster.k8x.local.yaml`.
 
 
 ## Pocket Design 
