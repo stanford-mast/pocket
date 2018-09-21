@@ -14,7 +14,8 @@ spec:
       privileged: true
       containers:
       - name: pocket-datanode-hdd
-        image: anakli/pocket-reflex-libaio-monitoring:shell
+        #image: anakli/pocket-reflex-libaio-monitoring:shell
+        image: anakli/pocket-reflex-libaio-monitoring:auto
         imagePullPolicy: Always
         securityContext:
           privileged: true
