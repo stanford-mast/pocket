@@ -13,7 +13,8 @@ spec:
       hostname: pocket-namenode
       containers:
       - name: pocket-namenode
-        image: anakli/pocket-namenode
+        #image: anakli/pocket-namenode-ctrl:shell
+        image: anakli/pocket-namenode-ctrl:auto
         ports:
         - containerPort: 9070
       nodeSelector: 

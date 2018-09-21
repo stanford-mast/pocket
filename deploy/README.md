@@ -2,7 +2,7 @@
 
 Instructions for seting up Pocket with kubernetes.
 
-## Before you start
+## Getting started
 
 Create a pocket-kubernetes VPC, pocket-kubernetes subnet, pocket-kubernetes-open security group and internet gateway. 
 Create a s3 bucket for your kops cluster state store. 
@@ -46,13 +46,7 @@ IAMFullAccess
 AmazonVPCFullAccess
 ```
 
-
-Clone this repository:
-
-```
-git clone https://github.com/stanford-mast/pocket
-cd pocket/deploy
-```
+The above steps only need to be done once. The steps to follow are needed each time you want to launch a Pocket cluster.
 
 ## Creating a cluster with kops
 
@@ -132,7 +126,7 @@ cd ../controller
 python3 controller.py
 ```
 
-Alternatively, you can manually launch Pocket storage server containers (make sure you have enough storage nodes in your cluster to run the containers you launch):
+Alternatively, you can manually launch Pocket storage server containers (make sure you have enough storage VMs in your cluster to run the containers you launch):
 
 ```
 python create_datanode_job.py dram 2  # launches two Pocket-DRAM containers 

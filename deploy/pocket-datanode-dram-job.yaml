@@ -14,7 +14,8 @@ spec:
       privileged: true
       containers:
       - name: pocket-datanode-dram
-        image: anakli/pocket-datanode-dram
+        #image: anakli/pocket-datanode-dram:shell
+        image: anakli/pocket-datanode-dram:auto
         securityContext:
           privileged: true
           allowPrivilegeEscalation: true

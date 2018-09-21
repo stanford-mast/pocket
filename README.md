@@ -13,7 +13,7 @@ Pocket offers a *serverless* abstraction to storage, meaning users do not manual
 
 ## Running Pocket
 
-Follow the instructions in the [deploy README](https://github.com/stanford-mast/pocket/blob/master/deploy/README.md) to get started with a VPC for Pocket on AWS. 
+Follow the 'Getting Started' instructions in the [deploy README](https://github.com/stanford-mast/pocket/blob/master/deploy/README.md) to get started with a VPC for Pocket on AWS. 
 
 ```
 git clone https://github.com/stanford-mast/pocket
@@ -25,8 +25,12 @@ cd deploy
 Launch the VMs for the cluster described in `pocketcluster.k8x.local.yaml`:
 
 ```
+export NAME=pocketcluster.k8s.local
+export KOPS_STATE_STORE=s3://pocket-kubernetes-statestore-[username]
 ./setup_cluster.sh
 kops validate cluster
+# wait 3-5 minutes until the above command outputs 'Your cluster pocketcluster.k8s.local is ready'
+
 python patch_cluster.py
 ./add_ip_routes.sh
 ```
@@ -53,6 +57,14 @@ python create_ssd_job.py ssd_container 1	# this luanches 1 SSD storage server co
 ```
 
 Note that Pocket storage server containers have affinity to particular VM types to ensure they have the right type of storage technology available. `*-job.yaml` files in the deploy directory use the Kubernetes nodeSelector key to specify their pocketnodetype which corresponds to the nodeLabels key in `pocketcluster.k8x.local.yaml`.
+
+You are now ready to launch a lambda job and use Pocket. Note: lambdas should be in the same VPC and private subnet as Pocket. Ensure your security group allows access to the Pocket metadata and storage server nodes.
+
+Tear down the Pocket cluster as follows:
+```
+python prep_delete_cluster.py
+kops delete cluster $NAME --yes
+```
 
 
 ## Pocket Design 
