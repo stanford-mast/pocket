@@ -89,9 +89,10 @@ We leverage several open source projects to implement Pocket. Pocket's metadata 
 * **deploy**: deployment scripts and instructions to run Pocket with Kubernetes on AWS EC2
 * **src**: Pocket metadata and data plane implementation, based on Apache Crail and ReFlex
 * **controller**: control plane logic for automatic resource scaling 
-* **monitor**: storage server resource monitoring daemon 
+* **monitor**: source code for resource monitoring daemon that runs in each storage server container
 * **clientlib**: python client library for Pocket, based on the cppcrail C++ client
-* **dockerfiles**: Dockerfiles for building Pocket metadata and storage server container images 
+* **dockerfiles**: use this to build new Pocket container images if you modify Pocket source code
+* **microbenchmark**: a simple lambda latency test for Pocket
 
 
 ## Reference
