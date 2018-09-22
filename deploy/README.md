@@ -50,17 +50,17 @@ The above steps only need to be done once. The steps to follow are needed each t
 
 ## Creating a cluster with kops
 
-Set environment variables:
+Set environment variables in env.sh and generate the cluster config file from template:
 
 ```
-export NAME=pocketcluster.k8s.local
-export KOPS_STATE_STORE=s3://pocket-kubernetes-statestore-[username]
-
+# edit env.sh 
+source env.sh
+# generate yaml file from template by substituting values of environment variables
+envsubst < pocketcluster.template.yaml > pocketcluster.k8s.local.yaml
 ```
 
-Edit `pocketcluster.k8s.local.yaml` fields for `configBase` and `networkID` to have your S3 statestore bucket and VPC ID, and `id` and `egress` for your subnet ID and NAT gateway ID.
-
-Start cluster (launch instances with kubernetes services running, e.g., kubernetes API, master with kube ctrlr, nodes with kubelet agents). The cluster config is defined in `pocketcluster.k8s.local.yaml`.
+Start cluster (launch instances with kubernetes services running, e.g., kubernetes API, master with kube ctrlr, nodes with kubelet agents). 
+The cluster config is defined in `pocketcluster.k8s.local.yaml`, generated in the previous step.
 
 ```
 ./setup_cluster.sh
@@ -81,10 +81,10 @@ Validating cluster pocketcluster.k8s.local
 
 INSTANCE GROUPS
 NAME			ROLE	MACHINETYPE	MIN	MAX	SUBNETS
-dram-nodes		Node	r4.large	1	1	us-west-2c
+dram-nodes		Node	r4.2xlarge	2	2	us-west-2c
 master-us-west-2c	Master	m3.medium	1	1	us-west-2c
 metadata-nodes		Node	m5.large	1	1	us-west-2c
-nvme-nodes		Node	i3.large	0	0	us-west-2c
+nvme-nodes		Node	i3.2xlarge	1	1	us-west-2c
 
 NODE STATUS
 NAME						ROLE	READY
@@ -119,7 +119,9 @@ Launch a metadata (namenode) deployemnt. The deployment is defined in `pocket-na
 python deploy_pocket_namenode.py
 ```
 
-Now launch the controller, it automatically launches datanodes with the spec defined in `pocket-datanode-dram-job.yaml`:
+Now launch the controller. The controller automatically launches datanodes with the spec defined in `pocket-datanode-dram-job.yaml`. It assumes there are sufficient VMs in the cluster for the containers it attempts to launch. Note that Pocket storage server containers have affinity to particular VM types to ensure they have the right type of storage technology available. `*-job.yaml` files in the deploy directory use the Kubernetes nodeSelector key to specify their pocketnodetype which corresponds to the nodeLabels key in `pocketcluster.k8x.local.yaml`.
+
+To launch the controller:
 
 ```
 cd ../controller
@@ -129,8 +131,10 @@ python3 controller.py
 Alternatively, you can manually launch Pocket storage server containers (make sure you have enough storage VMs in your cluster to run the containers you launch):
 
 ```
-python create_datanode_job.py dram 2  # launches two Pocket-DRAM containers 
-python create_reflex_job.py nvme 1    # launches one Pocket-NVMe container
+python create_datanode_job.py dram 3  # this luanches 3 DRAM storage server containers
+python create_reflex_job.py nvme 2    # this launches 2 NVMe storage server containers
+python create_hdd_job.py hdd 1        # this launches 1 HDD storage server container
+python create_ssd_job.py ssd 1	      # this luanches 1 SSD storage server container
 ```
 
 Checking the status of your containers and some other useful commands:

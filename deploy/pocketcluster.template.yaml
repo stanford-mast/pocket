@@ -11,7 +11,7 @@ spec:
     rbac: {}
   channel: stable
   cloudProvider: aws
-  configBase: s3://pocket-kubernetes-statestore-[username]/pocketcluster.k8s.local
+  configBase: ${KOPS_STATE_STORE}/pocketcluster.k8s.local
   etcdClusters:
   - etcdMembers:
     - instanceGroup: master-us-west-2c
@@ -28,25 +28,25 @@ spec:
   - 0.0.0.0/0
   kubernetesVersion: 1.9.3
   masterPublicName: api.pocketcluster.k8s.local
-  networkCIDR: 10.1.0.0/16
-  networkID: vpc-86fbdcff
+  networkCIDR: ${POCKET_VPC_NETWORK_CIDR}
+  networkID: ${POCKET_VPC_ID}
   networking:
     weave: {}
   nonMasqueradeCIDR: 100.64.0.0/10
   sshAccess:
   - 0.0.0.0/0
   subnets:
-  - cidr: 10.1.0.0/17
+  - cidr: ${POCKET_VPC_PRIVATE_NETWORK_CIDR}
     name: pocket-kube-private
     type: Private
-    zone: us-west-2c
-    id: subnet-7c94f026
-    egress: nat-0291ceb8f469222dd
-  - cidr: 10.1.129.32/27
+    zone: ${POCKET_AWS_ZONE}
+    id: ${POCKET_VPC_PRIVATE_SUBNET_ID}
+    egress: ${POCKET_NAT_ID}
+  - cidr: ${POCKET_VPC_PUBLIC_NETWORK_CIDR}
     name: pocket-kube-public
     type: Public
-    zone: us-west-2c
-    id: subnet-6389ed39
+    zone: ${POCKET_AWS_ZONE}
+    id: ${POCKET_VPC_PUBLIC_SUBNET_ID}
   topology:
     dns:
       type: Public
@@ -85,8 +85,8 @@ metadata:
 spec:
   image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
   machineType: r4.2xlarge
-  maxSize: 0
-  minSize: 0
+  maxSize: 1
+  minSize: 1
   nodeLabels:
     kops.k8s.io/instancegroup: dram-nodes
     spot: "true"
@@ -132,8 +132,8 @@ spec:
   #image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
   image: ami-310a6249
   machineType: i3.2xlarge
-  maxSize: 1
-  minSize: 1
+  maxSize: 0
+  minSize: 0
   nodeLabels:
     kops.k8s.io/instancegroup: nvme-nodes
     spot: "false"
@@ -179,7 +179,6 @@ metadata:
 spec:
   #image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
   image: ami-310a6249
-  #image: ami-a702d5df
   machineType: i2.2xlarge
   maxSize: 0
   minSize: 0

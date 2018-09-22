@@ -14,7 +14,8 @@ spec:
       privileged: true
       containers:
       - name: pocket-datanode-ssd
-        image: anakli/pocket-reflex-ixgbevf-libaio-monitoring:shell
+        #image: anakli/pocket-reflex-ixgbevf-libaio-monitoring:shell
+        image: anakli/pocket-reflex-ixgbevf-libaio-monitoring:auto
         imagePullPolicy: Always
         securityContext:
           privileged: true
