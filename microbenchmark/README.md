@@ -1,5 +1,7 @@
 ## Latency Microbenchmark for Pocket
 
+### Instructions
+
 1. Modify `aws-credentials.txt` to contain your IAM role, Pocket VPC private subnet, and Pocket VPC security group. Then load your environment variables:
 ```
 source aws-credentials.txt
@@ -19,17 +21,12 @@ cd ../microbenchmark/latency
  
 4. To run the test:
 
-Option 1:
-```
-python invoke_lambda.py
-```
-Chek the ouput in AWS CloudWatch logs.
+Option 1: Run `python invoke_lambda.py` Check the ouput in AWS CloudWatch logs.
 
-Option 2: 
-Alternatively, in the AWS lambda console, open the function `pocket_latency_test`, then run it with the test button. The output will print in the console.
+Option 2: In the AWS lambda console, open the function `pocket_latency_test`, then run it with the test button. The output will print in the console.
 
 
-NOTES:
+### Notes
 
 * To re-run the latency microbenchamrk, either change `jobid` in `latency.py` or restart Pocket namenode & datanode (since Pocket doesn't support overwriting of the same file) 
 * Use the `update_lambda.sh` script to update the AWS deployment package if you make changes to any of the files.
