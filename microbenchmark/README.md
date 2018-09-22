@@ -17,9 +17,14 @@ cp cppcrail/build/pocket/libpocket.so ../microbenchmark/latency/
 cd ../microbenchmark/latency
 ```
 
-3. Make sure you have launched a Pocket metadata server and that `latency.py` connects to the right metadata server IP address (default is 10.1.0.10). Also ensure you have at least one Pocket storage server (any storage technology tier) in the cluster. For a simple microbenchmark test, you can launch the storage nodes manually rather than using the Pocket controller.
+3. Register the lambda function:
+```
+./create_lambda.sh
+```
+
+4. Make sure you have launched a Pocket metadata server and that `latency.py` connects to the right metadata server IP address (default is 10.1.0.10). Also ensure you have at least one Pocket storage server (any storage technology tier) in the cluster. For a simple microbenchmark test, you can launch the storage nodes manually rather than using the Pocket controller.
  
-4. To run the test:
+5. To run the test:
 
 Option 1: Run `python invoke_lambda.py` Check the ouput in AWS CloudWatch logs.
 
