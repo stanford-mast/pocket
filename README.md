@@ -1,4 +1,4 @@
-## Elastic ephemeral storage
+#Pocket
 
 Pocket is a storage system designed for ephemeral data sharing. Pocket provides fast, distributed and elastic storage for data with low durability requirements.
 The key properties of Pocket are:
