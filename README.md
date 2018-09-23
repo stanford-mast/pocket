@@ -12,62 +12,9 @@ Pocket offers a *serverless* abstraction to storage, meaning users do not manual
 
 ## Running Pocket
 
-Follow the 'Getting Started' instructions in the [deploy README](https://github.com/stanford-mast/pocket/blob/master/deploy/README.md) to get started with a VPC for Pocket on AWS. 
+Follow the instructions in the [deploy README](https://github.com/stanford-mast/pocket/blob/master/deploy/README.md) to set up and run a Pocket deployment on Amazon Web Services. 
 
-```
-git clone https://github.com/stanford-mast/pocket
-cd deploy
-# follow Gettgin Started instructions in deploy README
-```
-
-Launch the VMs for your Pocket cluster:
-
-```
-# edit env.sh 
-source env.sh
-# generate yaml file from template by substituting values of environment variables
-envsubst < pocketcluster.template.yaml > pocketcluster.k8s.local.yaml
-# edit pocketcluster.k8s.local.yaml to adjust the number of metadata and storage servers
-
-./setup_cluster.sh
-kops validate cluster
-
-# wait 3-5 minutes until the above command outputs 'Your cluster pocketcluster.k8s.local is ready'
-
-python patch_cluster.py
-./add_ip_routes.sh
-```
-
-Launch a Pocket metadata server container:
-
-```
-python deploy_pocket_namenode.py 
-```
-
-Launch the controller to autoscale the cluster as jobs register and deregister. The controller scales containers and assumes VMs are available to run these containers.
-
-```
-cd ../controller
-python3 controller.py
-```
-
-You can also individually launch Pocket storage server containers instead of using the controller. For example:
-```
-python create_datanode_job.py dram_container 3  # this luanches 3 DRAM storage server containers
-python create_reflex_job.py nvme_container 2    # this launches 2 NVMe storage server containers
-python create_hdd_job.py hdd_container 1        # this launches 1 HDD storage server container
-python create_ssd_job.py ssd_container 1	# this luanches 1 SSD storage server container
-```
-
-You are now ready to launch a lambda job and use Pocket. See the [microbenchmark README](https://github.com/stanford-mast/pocket/tree/master/microbenchmark) for a simple example test. 
-Note: lambdas must run in the same VPC as Pocket. Ensure your security group allows traffic to/from Pocket metadata and storage server nodes. 
-
-
-Tear down the Pocket cluster as follows:
-```
-python prep_delete_cluster.py
-kops delete cluster $NAME --yes
-```
+Follow the instructions in the [microbenchmark README](https://github.com/stanford-mast/pocket/tree/master/microbenchmark) to run a simple example test on AWS Lambda that measures Pocket PUT, GET and metadata lookup latency.
 
 
 ## Pocket Design 
@@ -91,7 +38,7 @@ We leverage several open source projects to implement Pocket. Pocket's metadata 
 * **controller**: control plane logic for automatic resource scaling 
 * **monitor**: source code for resource monitoring daemon that runs in each storage server container
 * **clientlib**: python client library for Pocket, based on the cppcrail C++ client
-* **dockerfiles**: use this to build new Pocket container images if you modify Pocket source code
+* **dockerfiles**: build new Pocket container images if you modify Pocket source code
 * **microbenchmark**: a simple lambda latency test for Pocket
 
 

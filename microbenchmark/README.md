@@ -2,22 +2,26 @@
 
 ### Instructions
 
-1. Modify `aws-credentials.txt` to contain your IAM role, Pocket VPC private subnet, and Pocket VPC security group. Then load your environment variables:
+1. Modify `aws-credentials.txt` to contain your IAM role, Pocket VPC private subnet, and Pocket VPC security group. Note that lambdas must run in the same VPC as Pocket. Ensure your security group allows traffic to/from Pocket metadata and storage server nodes. Load your environment variables: 
 ```
 source aws-credentials.txt
 ```
 
-2. Compile Pocket client:
+2. Compile the Pocket client library (if you have not already) and copy the shared library and pocket.py file to the microbenchmark directory:
 ```
 cd ../../clientlib
+# fetch Pocket clientlib source code and compile
 ./fetch-deps.sh
-cp pocket.py ../microbenchmark/latency/
-cp cppcrail/build/client/libcppcrail.so ../microbenchmark/latency/
-cp cppcrail/build/pocket/libpocket.so ../microbenchmark/latency/
-cd ../microbenchmark/latency
+
+# copy files to microbenchmark directory
+cp pocket.py ../microbenchmark/
+cp cppcrail/build/client/libcppcrail.so ../microbenchmark/
+cp cppcrail/build/pocket/libpocket.so ../microbenchmark/
+
+cd ../microbenchmark/
 ```
 
-3. Register the lambda function:
+3. Register the lambda function called `pocket_latency_test`:
 ```
 ./create_lambda.sh
 ```
