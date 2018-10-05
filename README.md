@@ -1,4 +1,4 @@
-# Pocket
+![](https://s3-us-west-2.amazonaws.com/pocket-logo/pocket-logo-large.pdf)
 
 Pocket is a storage system designed for ephemeral data sharing. Pocket provides fast, distributed and elastic storage for data with low durability requirements.
 The key properties of Pocket are:
