@@ -1,7 +1,7 @@
 ## Pocket controller
 
 To use the Pocket controller, you must first launch VMs for your Pocket cluster. The controller
-will scale containers based on job requirements and resource usage. See the the 
+will scale containers based on job requirements and resource usage. See the 
 [deploy README](https://github.com/stanford-mast/pocket/blob/master/deploy/README.md) for
 instrucitons about setting up a Pocket cluster. 
 
