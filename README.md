@@ -45,4 +45,7 @@ We leverage several open source projects to implement Pocket. Pocket's metadata 
 
 Please refer to the Pocket OSDI'18 paper: 
 
-Ana Klimovic, Yawen Wang, Patrick Stuedi, Animesh Trivedi, Jonas Pfefferle, and Christos Kozyrakis. **Pocket: Elastic Ephemeral Storage for Serverless Analytics.** In *Proceedings of the USENIX Symposium on Operating Systems Design and Implementation* (OSDI'18), 2018.
+Ana Klimovic, Yawen Wang, Patrick Stuedi, Animesh Trivedi, Jonas Pfefferle, and Christos
+Kozyrakis. [Pocket: Elastic Ephemeral Storage for Serverless
+Analytics.](https://www.usenix.org/system/files/osdi18-klimovic.pdf) In *Proceedings of the
+USENIX Symposium on Operating Systems Design and Implementation* (OSDI), 2018.
