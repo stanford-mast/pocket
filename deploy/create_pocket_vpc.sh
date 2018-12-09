@@ -104,6 +104,7 @@ IGW_ID=$(aws ec2 create-internet-gateway \
   --output text \
   --region $AWS_REGION)
 echo "  Internet Gateway ID '$IGW_ID' CREATED."
+POCKET_INTERNET_GATEWAY_ID=$IGW_ID
 
 # Attach Internet gateway to your VPC
 aws ec2 attach-internet-gateway \
@@ -120,6 +121,7 @@ ROUTE_TABLE_ID=$(aws ec2 create-route-table \
   --output text \
   --region $AWS_REGION)
 echo "  Route Table ID '$ROUTE_TABLE_ID' CREATED."
+POCKET_ROUTE_TABLE_ID=$ROUTE_TABLE_ID
 
 # Create route to Internet Gateway
 RESULT=$(aws ec2 create-route \
@@ -154,6 +156,7 @@ EIP_ALLOC_ID=$(aws ec2 allocate-address \
   --output text \
   --region $AWS_REGION)
 echo "  Elastic IP address ID '$EIP_ALLOC_ID' ALLOCATED."
+POCKET_NAT_ELASTIC_IP_ID=$EIP_ALLOC_ID
 
 # Create NAT Gateway
 NAT_GW_ID=$(aws ec2 create-nat-gateway \

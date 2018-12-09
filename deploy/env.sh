@@ -14,4 +14,7 @@ export KOPS_STATE_STORE=s3://my-kubernetes-statestore
 #export POCKET_VPC_PUBLIC_NETWORK_CIDR=10.1.129.32/27
 #export POCKET_NAT_ID=nat-xxxxxxxxxxxxxxxxx
 #export POCKET_AWS_ZONE=us-west-2c
+#export POCKET_INTERNET_GATEWAY_ID=x
+#export POCKET_NAT_ELASTIC_IP_ID=x
+#export POCKET_ROUTE_TABLE_ID=x
 
