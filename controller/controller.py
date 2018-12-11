@@ -197,8 +197,8 @@ def launch_dram_datanode(parallelism):
   print("KUBERNETES: launch dram datanode........")
   global dram_launch_num
   kubernetes_job_name = "pocket-datanode-dram-job" + str(dram_launch_num)
-  yaml_file = "deploy/pocket-datanode-dram-job.yaml"
-  cmd = ["./deploy/update_datanode_yaml.sh", kubernetes_job_name, str(parallelism), yaml_file] 
+  yaml_file = "../deploy/pocket-datanode-dram-job.yaml"
+  cmd = ["../deploy/update_datanode_yaml.sh", kubernetes_job_name, str(parallelism), yaml_file] 
   Popen(cmd, stdout=PIPE).wait()
 
   config.load_kube_config()
@@ -220,8 +220,8 @@ def launch_flash_datanode(parallelism):
   print("KUBERNETES: launch flash datanode........")
   global flash_launch_num
   kubernetes_job_name = "pocket-datanode-nvme-job" + str(flash_launch_num)
-  yaml_file = "deploy/pocket-datanode-nvme-job.yaml"
-  cmd = ["./deploy/update_datanode_yaml.sh", kubernetes_job_name, str(parallelism), yaml_file] 
+  yaml_file = "../deploy/pocket-datanode-nvme-job.yaml"
+  cmd = ["../deploy/update_datanode_yaml.sh", kubernetes_job_name, str(parallelism), yaml_file] 
   Popen(cmd, stdout=PIPE).wait()
 
   config.load_kube_config()

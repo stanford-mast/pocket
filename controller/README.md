@@ -9,6 +9,6 @@ Before using the controller, make sure to copy the `pocket.py` file from the cli
 controller folder. Use python3 to run the controller as it relies on the asyncio module. 
 
 ```
-cp ../clientlib/pocket.py .
+./fetch-deps.sh
 python3 controller.py
 ```
