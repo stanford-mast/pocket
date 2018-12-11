@@ -22,8 +22,8 @@ DRAM = 0
 NVME = 1
 STORAGE_TIERS = [DRAM, NVME]     # define tiers in order of lowest to highest latency       
 
-WAIT_FOR_DRAM_STARTUP = 10       # how long it takes for DRAM container to startup, in seconds
-WAIT_FOR_FLASH_STARTUP = 60      # how long it takes ReFlex container to startup, in seconds
+WAIT_FOR_DRAM_STARTUP = 60       # how long it takes for DRAM container to startup, in seconds
+WAIT_FOR_FLASH_STARTUP = 100      # how long it takes ReFlex container to startup, in seconds
 FRAC_DRAM_ALLOCATION = 0.2       # fraction of dataset that will go to dram vs. flash,
                                  # used if need more nodes for capacity than for throughput
 
@@ -197,8 +197,8 @@ def launch_dram_datanode(parallelism):
   print("KUBERNETES: launch dram datanode........")
   global dram_launch_num
   kubernetes_job_name = "pocket-datanode-dram-job" + str(dram_launch_num)
-  yaml_file = "kubernetes/pocket-datanode-dram-job.yaml"
-  cmd = ["./kubernetes/update_datanode_yaml.sh", kubernetes_job_name, str(parallelism), yaml_file] 
+  yaml_file = "deploy/pocket-datanode-dram-job.yaml"
+  cmd = ["./deploy/update_datanode_yaml.sh", kubernetes_job_name, str(parallelism), yaml_file] 
   Popen(cmd, stdout=PIPE).wait()
 
   config.load_kube_config()
@@ -220,8 +220,8 @@ def launch_flash_datanode(parallelism):
   print("KUBERNETES: launch flash datanode........")
   global flash_launch_num
   kubernetes_job_name = "pocket-datanode-nvme-job" + str(flash_launch_num)
-  yaml_file = "kubernetes/pocket-datanode-nvme-job.yaml"
-  cmd = ["./kubernetes/update_datanode_yaml.sh", kubernetes_job_name, str(parallelism), yaml_file] 
+  yaml_file = "deploy/pocket-datanode-nvme-job.yaml"
+  cmd = ["./deploy/update_datanode_yaml.sh", kubernetes_job_name, str(parallelism), yaml_file] 
   Popen(cmd, stdout=PIPE).wait()
 
   config.load_kube_config()

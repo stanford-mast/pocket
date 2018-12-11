@@ -85,8 +85,8 @@ metadata:
 spec:
   image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
   machineType: r4.2xlarge
-  maxSize: 1
-  minSize: 1
+  maxSize: 3
+  minSize: 3
   nodeLabels:
     kops.k8s.io/instancegroup: dram-nodes
     spot: "true"
