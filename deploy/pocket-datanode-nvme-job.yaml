@@ -15,7 +15,8 @@ spec:
       containers:
       - name: pocket-datanode-nvme
         #image: anakli/pocket-reflex:shell
-        image: anakli/pocket-reflex:auto
+        #image: anakli/pocket-reflex:auto
+        image: anakli/pocket-reflex-ctrl:auto
         securityContext:
           privileged: true
           allowPrivilegeEscalation: true
