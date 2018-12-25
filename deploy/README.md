@@ -8,7 +8,7 @@ Create a pocket-kubernetes VPC, pocket-kubernetes subnet, pocket-kubernetes-open
 Create a s3 bucket for your kops cluster state store. 
 Choose a name for your pocket cluster that ends with '.k8s.local', e.g., pocketcluster.k8s.local.
 
-Login to instance in pocket-kubernetes VPC from which you will launch kubernetes.
+Create and ssh into an instance in pocket-kubernetes VPC from which you will launch kubernetes. This instance will serve as the Pocket controller. Make sure to create the VM in the private subnet of the pocket-kubernetes VPC and assign the VM's (private) IP address to be `10.1.47.178`. This is because the default container images for Pocket storage and metadata nodes assume this IP address for the controller. If you use a different IP address for the controller, you will need to update the Pocket storage and metadata Docker images accordingly (see the `dockerfiles` directory of the pocket repo).
 
 Install [kops](https://github.com/kubernetes/kops):
 
@@ -81,16 +81,20 @@ Validating cluster pocketcluster.k8s.local
 
 INSTANCE GROUPS
 NAME			ROLE	MACHINETYPE	MIN	MAX	SUBNETS
-dram-nodes		Node	r4.2xlarge	2	2	us-west-2c
-master-us-west-2c	Master	m3.medium	1	1	us-west-2c
-metadata-nodes		Node	m5.large	1	1	us-west-2c
-nvme-nodes		Node	i3.2xlarge	1	1	us-west-2c
+dram-nodes		Node	r4.2xlarge	2	2	pocket-kube-private
+hdd-nodes		Node	h1.2xlarge	0	0	pocket-kube-private
+master-us-west-2c	Master	m3.medium	1	1	pocket-kube-private
+metadata-nodes		Node	m5.xlarge	1	1	pocket-kube-private
+nvme-nodes		Node	i3.2xlarge	0	0	pocket-kube-private
+ssd-nodes		Node	i2.2xlarge	0	0	pocket-kube-private
 
 NODE STATUS
 NAME						ROLE	READY
-ip-10-1-145-224.us-west-2.compute.internal	master	True
-ip-10-1-153-67.us-west-2.compute.internal	node	True
-ip-10-1-198-253.us-west-2.compute.internal	node	True
+ip-10-1-88-112.us-west-2.compute.internal	node	True
+ip-10-1-100-102.us-west-2.compute.internal	node	True
+ip-10-1-56-16.us-west-2.compute.internal	node	True
+ip-10-1-63-38.us-west-2.compute.internal	node	True
+ip-10-1-90-254.us-west-2.compute.internal	master	True
 
 Your cluster pocketcluster.k8s.local is ready
 ```
