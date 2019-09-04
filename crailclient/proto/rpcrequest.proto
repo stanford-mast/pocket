@@ -1,0 +1,17 @@
+syntax = "proto2";
+
+import "metadata.proto";
+
+package crail;
+
+message CreateFileReq {
+  required FileName filename = 1;
+  required int32 type = 2;
+  required int32 storageClass = 3;
+  required int32 locationClass = 4;
+  required bool enumerable = 5;
+}
+
+
+
+
