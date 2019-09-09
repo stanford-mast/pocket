@@ -1,6 +1,5 @@
 #!/bin/bash
-sudo apt-get install -y cmake libboost-all-dev python-dev
-sed -i 's/python2.7/python3.5/g' pocket/CMakeLists.txt
+sudo apt-get install -y cmake libboost-all-dev python-dev python3-dev
 mkdir build
 cd build
 cmake ..

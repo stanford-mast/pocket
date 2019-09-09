@@ -12,11 +12,12 @@ Pocket offers a *serverless* abstraction to storage, meaning users do not manual
 ## Building and Deploying Pocket from Source
 
 To build Pocket from source execute the following steps:
-
-1. cd crailclient 
-2. ./build.sh // builds libcppcrail.so and libpocket.so
-3. cd ../pocket-core
-4. mvn -DskipTests install // builds crail-1.0-bin.tar.gz
+```
+cd crailclient 
+./build.sh 			# builds libcppcrail.so and libpocket.so
+cd ../pocket-core
+mvn -DskipTests install 	# builds crail-1.0-bin.tar.gz
+```
 
 For deployment, copy the shared libraries libcppcrail.so and libpocket.so together with the python scripts pocket.py, controller.py and pocket_metadata_cmds.py to one directory, and un-tar crail-1.0-bin.tar.gz into a different directory. pocket.py is the client interface applications use to store and share ephemeral data between function invocations. controller.py is the Pocket controller responsible for managing storage resources in an elastic manner. crail-1.0-bin contains the server side of the Pocket storage platform. 
 

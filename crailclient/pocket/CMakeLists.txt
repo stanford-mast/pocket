@@ -6,7 +6,7 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 FIND_PACKAGE(Boost 1.58.0)
 IF(Boost_FOUND)
-	INCLUDE_DIRECTORIES("${Boost_INCLUDE_DIRS}" "/usr/include/python2.7")
+	INCLUDE_DIRECTORIES("${Boost_INCLUDE_DIRS}" "/usr/include/python3.5")
 	SET(Boost_USE_STATIC_LIBS OFF)
 	SET(Boost_USE_MULTITHREADED ON)
 	SET(Boost_USE_STATIC_RUNTIME OFF)
