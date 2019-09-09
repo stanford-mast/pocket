@@ -1,13 +1,9 @@
 # C++ client for Crail/Pocket
 
-This branch adds support to compile the C++ client using Boost.python for use by the Pocket python client library. 
+This directory contains the C++ client for Pocket and uses Boost.python for the python client library. To build, run:
 
 ```
-sudo apt-get install -y cmake libboost-all-dev python-dev
-mkdir build
-cd build
-cmake ..
-make
+./build.sh
 ```
 
 
