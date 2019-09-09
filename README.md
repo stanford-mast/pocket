@@ -9,6 +9,17 @@ The key properties of Pocket are:
 	
 Pocket offers a *serverless* abstraction to storage, meaning users do not manually configure or manage storage servers. A key use-case for Pocket is ephemeral data sharing in serverless analytics, when serverless tasks need to exchange intermediate data between execution stages. 
 
+## Building and Deploying Pocket from Source
+
+To build Pocket from source execute the following steps:
+```
+cd client 
+./build.sh 			# builds libcppcrail.so and libpocket.so
+cd ../pocket-core
+mvn -DskipTests install 	# builds crail-1.0-bin.tar.gz
+```
+
+For deployment, copy the shared libraries libcppcrail.so and libpocket.so together with the python scripts pocket.py, controller.py and pocket_metadata_cmds.py to one directory, and un-tar crail-1.0-bin.tar.gz into a different directory. pocket.py is the client interface applications use to store and share ephemeral data between function invocations. controller.py is the Pocket controller responsible for managing storage resources in an elastic manner. crail-1.0-bin contains the server side of the Pocket storage platform. 
 
 ## Running Pocket
 
@@ -34,12 +45,11 @@ We leverage several open source projects to implement Pocket. Pocket's metadata 
 ## Pocket repository structure
 
 * **deploy**: deployment scripts and instructions to run Pocket with Kubernetes on AWS EC2
-* **src**: Pocket metadata and data plane implementation, based on Apache Crail and ReFlex
 * **controller**: control plane logic for automatic resource scaling 
-* **clientlib**: python client library for Pocket, based on the cppcrail C++ client
+* **client**: python client library for Pocket, based on the Crail C++ client
 * **dockerfiles**: build new Pocket container images if you modify Pocket source code
 * **microbenchmark**: a simple lambda latency test for Pocket
-
+* **pocket-core**: source code for Pocket metadata and data plane implementation, based on Apache Crail and ReFlex
 
 ## Reference
 

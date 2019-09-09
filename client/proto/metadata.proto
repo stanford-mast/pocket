@@ -1,0 +1,38 @@
+syntax = "proto2";
+
+package crail;
+
+message FileName {
+  required int32 length = 1;
+  repeated int32 component = 2;
+}
+
+message FileInfo {
+  required int64 fd = 1;
+  required int64 capacity = 2;
+  required int32 type = 3;
+  required int64 dirOffset = 4;
+  required int64 token = 5;
+  required int64 modificationTime = 6;
+}
+
+message DataNodeStatistics {
+  required int64 serviceId = 1;
+  required int32 freeBlockCount = 2;
+}
+
+message DataNodeInfo {
+  required int32 storageType = 1;
+  required int32 storageClass = 2;
+  required int32 locationClass = 3;
+  required bytes ipAddress = 4;
+  required int32 port = 5;
+}
+
+message BlockInfo {
+  required DataNodeInfo dnInfo = 1;
+  required int64 lba = 2;
+  required int64 addr = 3;
+  required int32 length = 4;
+  required int32 lkey = 5;
+}

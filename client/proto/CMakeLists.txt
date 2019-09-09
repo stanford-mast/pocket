@@ -1,0 +1,8 @@
+set(CMAKE_CXX_FLAGS "-fPIC")
+include(FindProtobuf)
+find_package(Protobuf REQUIRED)
+include_directories(${PROTOBUF_INCLUDE_DIR})
+protobuf_generate_cpp(PROTO_SRC PROTO_HEADER metadata.proto rpcrequest.proto)
+add_library(proto SHARED ${PROTO_HEADER} ${PROTO_SRC})
+install(TARGETS proto DESTINATION /lib)
+install (FILES ${CMAKE_BINARY_DIR}/proto/metadata.pb.h ${CMAKE_BINARY_DIR}/proto/rpcrequest.pb.h DESTINATION /include)
