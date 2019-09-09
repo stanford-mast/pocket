@@ -13,7 +13,7 @@ Pocket offers a *serverless* abstraction to storage, meaning users do not manual
 
 To build Pocket from source execute the following steps:
 ```
-cd crailclient 
+cd client 
 ./build.sh 			# builds libcppcrail.so and libpocket.so
 cd ../pocket-core
 mvn -DskipTests install 	# builds crail-1.0-bin.tar.gz
@@ -46,8 +46,7 @@ We leverage several open source projects to implement Pocket. Pocket's metadata 
 
 * **deploy**: deployment scripts and instructions to run Pocket with Kubernetes on AWS EC2
 * **controller**: control plane logic for automatic resource scaling 
-* **crailclient**: client library for Pocket, based on the Crail C++ client
-* **clientlib**: python module for Pocket client library
+* **client**: python client library for Pocket, based on the Crail C++ client
 * **dockerfiles**: build new Pocket container images if you modify Pocket source code
 * **microbenchmark**: a simple lambda latency test for Pocket
 * **pocket-core**: source code for Pocket metadata and data plane implementation, based on Apache Crail and ReFlex

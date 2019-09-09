@@ -10,13 +10,13 @@ source aws-credentials.txt
 2. Compile the Pocket client library (if you have not already) and copy the shared library and pocket.py file to the microbenchmark directory:
 ```
 # compile Pocket client source
-cd ../crailclient
+cd ../client
 ./build.sh
 
 # copy client files to microbenchmark directory
 cp build/client/libcppcrail.so ../microbenchmark/
 cp build/pocket/libpocket.so ../microbenchmark/
-cp ../clientlib/pocket.py ../microbenchmark/
+cp pocket.py ../microbenchmark/
 
 cd ../microbenchmark/
 ```
