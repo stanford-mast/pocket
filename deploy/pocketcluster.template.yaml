@@ -26,7 +26,7 @@ spec:
     legacy: false
   kubernetesApiAccess:
   - 0.0.0.0/0
-  kubernetesVersion: 1.9.3
+  kubernetesVersion: 1.15.10
   masterPublicName: api.pocketcluster.k8s.local
   networkCIDR: ${POCKET_VPC_NETWORK_CIDR}
   networkID: ${POCKET_VPC_ID}
@@ -63,7 +63,7 @@ metadata:
     kops.k8s.io/cluster: pocketcluster.k8s.local
   name: master-us-west-2c
 spec:
-  image: kope.io/k8s-1.8-debian-jessie-amd64-hvm-ebs-2018-02-08
+  image: kope.io/k8s-1.8-debian-stretch-amd64-hvm-ebs-2018-02-08
   machineType: m3.medium
   maxSize: 1
   minSize: 1
