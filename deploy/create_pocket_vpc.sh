@@ -47,7 +47,7 @@ VPC_ID=$(aws ec2 create-vpc \
   --output text \
   --region $AWS_REGION)
 echo "  VPC ID '$VPC_ID' CREATED in '$AWS_REGION' region."
-POCKET_VPC_ID=$VPC_ID
+echo "POCKET_VPC_ID="$VPC_ID
 
 # Add Name tag to VPC
 aws ec2 create-tags \
@@ -67,7 +67,7 @@ SUBNET_PUBLIC_ID=$(aws ec2 create-subnet \
   --region $AWS_REGION)
 echo "  Subnet ID '$SUBNET_PUBLIC_ID' CREATED in '$SUBNET_PUBLIC_AZ'" \
   "Availability Zone."
-POCKET_VPC_PUBLIC_SUBNET_ID=$SUBNET_PUBLIC_ID
+echo "POCKET_VPC_PUBLIC_SUBNET_ID="$SUBNET_PUBLIC_ID
 
 # Add Name tag to Public Subnet
 aws ec2 create-tags \
@@ -88,7 +88,7 @@ SUBNET_PRIVATE_ID=$(aws ec2 create-subnet \
   --region $AWS_REGION)
 echo "  Subnet ID '$SUBNET_PRIVATE_ID' CREATED in '$SUBNET_PRIVATE_AZ'" \
   "Availability Zone."
-POCKET_VPC_PRIVATE_SUBNET_ID=$SUBNET_PRIVATE_ID
+echo "POCKET_VPC_PRIVATE_SUBNET_ID="$SUBNET_PRIVATE_ID
 
 # Add Name tag to Private Subnet
 aws ec2 create-tags \
@@ -104,7 +104,7 @@ IGW_ID=$(aws ec2 create-internet-gateway \
   --output text \
   --region $AWS_REGION)
 echo "  Internet Gateway ID '$IGW_ID' CREATED."
-POCKET_INTERNET_GATEWAY_ID=$IGW_ID
+echo "POCKET_INTERNET_GATEWAY_ID="$IGW_ID
 
 # Attach Internet gateway to your VPC
 aws ec2 attach-internet-gateway \
@@ -121,7 +121,7 @@ ROUTE_TABLE_ID=$(aws ec2 create-route-table \
   --output text \
   --region $AWS_REGION)
 echo "  Route Table ID '$ROUTE_TABLE_ID' CREATED."
-POCKET_ROUTE_TABLE_ID=$ROUTE_TABLE_ID
+echo "POCKET_ROUTE_TABLE_ID="$ROUTE_TABLE_ID
 
 # Create route to Internet Gateway
 RESULT=$(aws ec2 create-route \
@@ -156,7 +156,7 @@ EIP_ALLOC_ID=$(aws ec2 allocate-address \
   --output text \
   --region $AWS_REGION)
 echo "  Elastic IP address ID '$EIP_ALLOC_ID' ALLOCATED."
-POCKET_NAT_ELASTIC_IP_ID=$EIP_ALLOC_ID
+echo "POCKET_NAT_ELASTIC_IP_ID="$EIP_ALLOC_ID
 
 # Create NAT Gateway
 NAT_GW_ID=$(aws ec2 create-nat-gateway \
@@ -192,7 +192,7 @@ until [[ $STATE == 'AVAILABLE' ]]; do
   sleep 1
 done
 printf "\n    ......\n  NAT Gateway ID '$NAT_GW_ID' is now AVAILABLE.\n"
-POCKET_NAT_ID=$NAT_GW_ID
+echo "POCKET_NAT_ID="$NAT_GW_ID
 
 # Create route to NAT Gateway
 MAIN_ROUTE_TABLE_ID=$(aws ec2 describe-route-tables \

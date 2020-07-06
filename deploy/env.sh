@@ -1,10 +1,7 @@
 export NAME=pocketcluster.k8s.local
 export KOPS_STATE_STORE=s3://my-kubernetes-statestore
 
-# Note: If you use the create-pocket-vpc.sh script,
-#       the env vars below will be set already.
-#       If you create the VPC yourself, then
-#       uncomment and set these vars 
+#Save values from the output of the setup script to be reused here:
 
 #export POCKET_VPC_ID=vpc-xxxxxxxx
 #export POCKET_VPC_PRIVATE_SUBNET_ID=subnet-xxxxxxxx
