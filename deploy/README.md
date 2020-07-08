@@ -1,5 +1,11 @@
 # Deployment Guide v2.0
 
+This guide runs thruough the steps for setting up a Pocket kubernetes cluster running on AWS. 
+
+- [The first section](#setup-aws-resources) deals with initial setup and creating AWS resources. 
+- [The second section](#create-a-pocket-cluster) details how to create a new Pocket cluster with those resources. 
+- The third section shows how to use that cluster to run and use Pocket.
+
 ## Setup AWS Resources
 
 1. Create an AWS IAM user with an access key ID and secret access key that will be used to access and allocate AWS resources programatically via the AWS CLI. Ensure your AWS IAM user has the following permissions:
@@ -73,3 +79,67 @@
 The above steps only need to be done once. The steps to follow are needed each time you want to launch a Pocket cluster.
 
 ## Create a Pocket cluster
+
+Set environment variables in [env.sh](./env.sh) and generate the cluster config file from template:
+
+```
+# edit env.sh 
+source env.sh
+# generate yaml file from template by substituting values of environment variables
+envsubst < pocketcluster.template.yaml > pocketcluster.k8s.local.yaml
+```
+
+Start cluster (launch instances with kubernetes services running, e.g., kubernetes API, master with kube ctrlr, nodes with kubelet agents). 
+The cluster config is defined in `pocketcluster.k8s.local.yaml`, generated in the previous step.
+
+```
+./setup_cluster.sh
+```
+
+Now wait for cluster instances to start. This usually takes about 5-10 minutes. Check the cluster is valid with:
+
+```
+kops validate cluster
+```
+
+You should see output like:
+```
+$ kops validate cluster
+Using cluster from kubectl context: pocketcluster.k8s.local
+
+Validating cluster pocketcluster.k8s.local
+
+INSTANCE GROUPS
+NAME			ROLE	MACHINETYPE	MIN	MAX	SUBNETS
+dram-nodes		Node	r4.2xlarge	2	2	pocket-kube-private
+hdd-nodes		Node	h1.2xlarge	0	0	pocket-kube-private
+master-us-west-2c	Master	m3.medium	1	1	pocket-kube-private
+metadata-nodes		Node	m5.xlarge	1	1	pocket-kube-private
+nvme-nodes		Node	i3.2xlarge	0	0	pocket-kube-private
+ssd-nodes		Node	i2.2xlarge	0	0	pocket-kube-private
+
+NODE STATUS
+NAME						ROLE	READY
+ip-10-1-88-112.us-west-2.compute.internal	node	True
+ip-10-1-100-102.us-west-2.compute.internal	node	True
+ip-10-1-56-16.us-west-2.compute.internal	node	True
+ip-10-1-63-38.us-west-2.compute.internal	node	True
+ip-10-1-90-254.us-west-2.compute.internal	master	True
+
+Your cluster pocketcluster.k8s.local is ready
+```
+
+
+If you see an `EOF` error, wait a few more minutes. If the cluster does not enter ready state, check your configuration. Make sure the nodes are running on instances with sufficient resources (avoid t2.micro instances, for example) and the master needs to run on a node with local SSD, e.g. m3 family.
+
+When the cluster is in ready state, patch the cluster to edit the node ingress security group rule and create & attach a secondary interface on the metadata server: 
+
+```
+python patch_cluster.py
+```
+
+Next, edit IP route table on metadata server:
+
+```
+./add_ip_routes.sh
+```
